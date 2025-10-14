@@ -1,0 +1,34 @@
+definitions:
+  routers.HealthcheckResponse:
+    properties:
+      api_name:
+        type: string
+      api_version:
+        type: string
+      app_mode:
+        type: string
+      status:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: Демо-проект на Go с поддержкой PostgreSQL и MongoDB
+  title: Go Currency API
+  version: "1.0"
+paths:
+  /:
+    get:
+      consumes:
+      - application/json
+      description: Проверяет работоспособность сервиса
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/routers.HealthcheckResponse'
+      summary: Проверка работы API
+      tags:
+      - health
+swagger: "2.0"

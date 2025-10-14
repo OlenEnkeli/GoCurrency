@@ -1,0 +1,29 @@
+version: 3
+
+tasks:
+  init:
+    desc: "Инициализация проекта"
+    cmds:
+      - go mod tidy
+      - cp .env.example .env
+
+  api:
+    desc: "Запуск API"
+    cmds:
+      - task: docs
+      - go run cmd/api/main.go
+
+  test:
+    desc: "Запуск тестов"
+    cmds:
+      - go test ./...
+
+  lint:
+    desc: "Линтинг"
+    cmds:
+      - golangci-lint run
+
+  docs:
+    desc: "Генерация Swagger"
+    cmds:
+      - swag init -g internal/api/main.go
