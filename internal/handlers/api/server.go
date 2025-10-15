@@ -12,8 +12,8 @@ type Server struct {
 	baseServer *http.Server
 }
 
-func NewServer() *Server {
-	router := NewRouter()
+func (h *Handler) NewServer() *Server {
+	router := h.InitRouter()
 	router.Use(CORSMiddleware())
 
 	return &Server{

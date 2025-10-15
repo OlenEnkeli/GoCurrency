@@ -24,7 +24,33 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/routers.HealthcheckResponse"
+                            "$ref": "#/definitions/api.HealthcheckResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/currencies/latest/": {
+            "get": {
+                "description": "Получение списка актуальных валют (курса к доллару)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "currencies"
+                ],
+                "summary": "Получение текущего курса валют",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dtos.Currency"
+                            }
                         }
                     }
                 }
@@ -32,7 +58,7 @@
         }
     },
     "definitions": {
-        "routers.HealthcheckResponse": {
+        "api.HealthcheckResponse": {
             "type": "object",
             "properties": {
                 "api_name": {
@@ -48,6 +74,38 @@
                     "type": "string"
                 }
             }
+        },
+        "dtos.Currency": {
+            "type": "object",
+            "properties": {
+                "currency_date": {
+                    "type": "string"
+                },
+                "currency_type": {
+                    "$ref": "#/definitions/dtos.CurrencyType"
+                },
+                "currency_value": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dtos.CurrencyType": {
+            "type": "string",
+            "enum": [
+                "USD",
+                "RUB",
+                "EUR",
+                "JPY"
+            ],
+            "x-enum-varnames": [
+                "USD",
+                "RUB",
+                "EUR",
+                "JPY"
+            ]
         }
     }
 }

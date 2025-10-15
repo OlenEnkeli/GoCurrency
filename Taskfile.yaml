@@ -1,5 +1,10 @@
 version: 3
 
+dotenv: ['.env']
+
+vars:
+  POSTGRES_URL: "postgres://{{.POSTGRES_USER}}:{{.POSTGRES_PASSWORD}}@{{.POSTGRES_HOST}}:{{.POSTGRES_PORT}}/{{.POSTGRES_DATABASE}}?sslmode={{.POSTGRES_SSL_MODE}}"
+
 tasks:
   init:
     desc: "Инициализация проекта"
@@ -21,9 +26,24 @@ tasks:
   lint:
     desc: "Линтинг"
     cmds:
-      - golangci-lint run
+      - golangci-lint run --fix
 
   docs:
     desc: "Генерация Swagger"
     cmds:
-      - swag init -g internal/api/main.go
+      - swag init -g internal/handlers/api/main.go
+
+  migrate:
+    desc: "Применение миграций PostgreSQL"
+    cmds:
+      - migrate -path migrations -database {{.POSTGRES_URL}} up
+
+  downgrade:
+    desc: "Откат миграций PostgreSQL"
+    cmds:
+      - migrate -path migrations -database {{.POSTGRES_URL}} down
+
+  migration:
+    desc: "Создание миграции PostgreSQL"
+    cmds:
+      - migrate create -ext sql -dir migrations -seq {{.CLI_ARGS}}

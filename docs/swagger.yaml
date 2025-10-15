@@ -1,5 +1,5 @@
 definitions:
-  routers.HealthcheckResponse:
+  api.HealthcheckResponse:
     properties:
       api_name:
         type: string
@@ -10,6 +10,29 @@ definitions:
       status:
         type: string
     type: object
+  dtos.Currency:
+    properties:
+      currency_date:
+        type: string
+      currency_type:
+        $ref: '#/definitions/dtos.CurrencyType'
+      currency_value:
+        type: number
+      id:
+        type: integer
+    type: object
+  dtos.CurrencyType:
+    enum:
+    - USD
+    - RUB
+    - EUR
+    - JPY
+    type: string
+    x-enum-varnames:
+    - USD
+    - RUB
+    - EUR
+    - JPY
 info:
   contact: {}
   description: Демо-проект на Go с поддержкой PostgreSQL и MongoDB
@@ -27,8 +50,25 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/routers.HealthcheckResponse'
+            $ref: '#/definitions/api.HealthcheckResponse'
       summary: Проверка работы API
       tags:
       - health
+  /currencies/latest/:
+    get:
+      consumes:
+      - application/json
+      description: Получение списка актуальных валют (курса к доллару)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dtos.Currency'
+            type: array
+      summary: Получение текущего курса валют
+      tags:
+      - currencies
 swagger: "2.0"

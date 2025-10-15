@@ -6,7 +6,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func SetupProject() {
+func SetupSettingsAndLogger() {
 	settings.Init()
 
 	switch settings.Settings.App.Mode {

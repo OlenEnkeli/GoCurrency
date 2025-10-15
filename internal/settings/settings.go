@@ -7,9 +7,9 @@ import (
 )
 
 type AllSettings struct {
-	App AppSettings `mapstructure:",squash"`
-	API APISettings `mapstructure:",squash"`
-	DB  DBSettings  `mapstructure:",squash"`
+	App      AppSettings      `mapstructure:",squash"`
+	API      APISettings      `mapstructure:",squash"`
+	Postgres PostgresSettings `mapstructure:",squash"`
 }
 
 var Settings AllSettings
