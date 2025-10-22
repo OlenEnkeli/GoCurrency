@@ -12,14 +12,23 @@ definitions:
     type: object
   dtos.Currency:
     properties:
-      currency_date:
+      date:
         type: string
-      currency_type:
-        $ref: '#/definitions/dtos.CurrencyType'
-      currency_value:
-        type: number
       id:
         type: integer
+      rate:
+        type: number
+      type:
+        $ref: '#/definitions/dtos.CurrencyType'
+    type: object
+  dtos.CurrencyPair:
+    properties:
+      left:
+        $ref: '#/definitions/dtos.CurrencyType'
+      rate:
+        type: number
+      right:
+        $ref: '#/definitions/dtos.CurrencyType'
     type: object
   dtos.CurrencyType:
     enum:
@@ -69,6 +78,32 @@ paths:
               $ref: '#/definitions/dtos.Currency'
             type: array
       summary: Получение текущего курса валют
+      tags:
+      - currencies
+  /currencies/pair/:
+    get:
+      consumes:
+      - application/json
+      description: Получение отношения валюты left к валюте right
+      parameters:
+      - description: Left currency type
+        in: query
+        name: left
+        required: true
+        type: string
+      - description: Right currency type
+        in: query
+        name: right
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.CurrencyPair'
+      summary: Получение курса валютной пары
       tags:
       - currencies
 swagger: "2.0"

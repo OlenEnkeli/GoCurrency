@@ -7,6 +7,7 @@ import (
 
 type Currency interface {
 	GetLatest() ([]dtos.Currency, error)
+	GetRateByType(currencyType dtos.CurrencyType) (float32, error)
 }
 
 type Repository struct {

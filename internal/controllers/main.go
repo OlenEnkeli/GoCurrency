@@ -7,6 +7,7 @@ import (
 
 type Currency interface {
 	GetLatest() ([]dtos.Currency, error)
+	GetPair(leftCurrencyType dtos.CurrencyType, rightCurrencyType dtos.CurrencyType) (dtos.CurrencyPair, error)
 }
 
 type Controller struct {

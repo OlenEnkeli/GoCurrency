@@ -32,6 +32,7 @@ func (h *Handler) InitRouter() *gin.Engine {
 	currencies := router.Group("/currencies/")
 	{
 		currencies.GET("/latest/", h.GetLatestCurrencies)
+		currencies.GET("/pair/", h.GetPair)
 	}
 
 	return router

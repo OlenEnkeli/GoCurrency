@@ -63,6 +63,45 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/currencies/pair/": {
+            "get": {
+                "description": "Получение отношения валюты left к валюте right",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "currencies"
+                ],
+                "summary": "Получение курса валютной пары",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Left currency type",
+                        "name": "left",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Right currency type",
+                        "name": "right",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dtos.CurrencyPair"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -86,17 +125,31 @@ const docTemplate = `{
         "dtos.Currency": {
             "type": "object",
             "properties": {
-                "currency_date": {
+                "date": {
                     "type": "string"
-                },
-                "currency_type": {
-                    "$ref": "#/definitions/dtos.CurrencyType"
-                },
-                "currency_value": {
-                    "type": "number"
                 },
                 "id": {
                     "type": "integer"
+                },
+                "rate": {
+                    "type": "number"
+                },
+                "type": {
+                    "$ref": "#/definitions/dtos.CurrencyType"
+                }
+            }
+        },
+        "dtos.CurrencyPair": {
+            "type": "object",
+            "properties": {
+                "left": {
+                    "$ref": "#/definitions/dtos.CurrencyType"
+                },
+                "rate": {
+                    "type": "number"
+                },
+                "right": {
+                    "$ref": "#/definitions/dtos.CurrencyType"
                 }
             }
         },

@@ -14,21 +14,31 @@ const (
 )
 
 type Currency struct {
-	Id            int64        `db:"id"             json:"id"`
-	CurrencyType  CurrencyType `db:"currency_type"  json:"currency_type"`
-	CurrencyValue float32      `db:"currency_value" json:"currency_value"`
-	CurrencyDate  string       `db:"currency_date"  json:"currency_date,omitempty"`
+	Id           int64        `json:"id"`
+	CurrencyType CurrencyType `json:"type"`
+	Rate         float32      `json:"rate"`
+	CurrencyDate string       `json:"date"`
 }
 
-func (c Currency) Validate() error {
-	switch c.CurrencyType {
+type CurrencyPair struct {
+	Left  CurrencyType `json:"left"`
+	Right CurrencyType `json:"right"`
+	Rate  float32      `json:"rate"`
+}
+
+func (c CurrencyType) Validate() error {
+	switch c {
 	case USD, RUB, EUR, JPY:
 		return nil
 	default:
 		return errors.NewValidationError(
 			"currency_type",
 			"Must be on of USD, RUB, EUR, JPY",
-			c.CurrencyType,
+			c,
 		)
 	}
+}
+
+func (c Currency) Validate() error {
+	return c.CurrencyType.Validate()
 }

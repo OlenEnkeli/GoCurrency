@@ -34,7 +34,7 @@ func (e ValidationError) ToAPIError() APIError {
 	return APIError{
 		HTTPCode:  http.StatusUnprocessableEntity,
 		ErrorCode: "ValidationError",
-		Message:   fmt.Sprintf("Cannot validate field %s: %s", e.Field, e.Message),
+		Message:   e.Print(),
 		Details: map[string]string{
 			e.Field: e.Message,
 		},
